@@ -1,0 +1,118 @@
+#include<iostream>
+using namespace std;
+void read();
+void display();
+int count();
+class What_to_fill;
+void fill(What_to_fill obj);
+short int arr[9][9]={1,0,0,0,5,6,0,0,0, //1
+					 0,0,9,0,0,0,4,0,0, //2
+					 0,0,0,7,0,9,0,0,0, //3
+					 3,0,2,0,0,0,9,0,0, //4
+					 0,7,0,0,1,0,0,0,5, //5
+					 6,0,0,0,0,0,0,1,0, //6
+					 2,0,0,5,0,0,8,0,0, //7
+					 0,9,7,0,3,0,0,0,0, //8
+					 0,6,4,0,0,0,0,0,1 }; //9
+class What_to_fill{
+public:
+	short add_i,add_j;
+	short arr[9];
+};
+
+int main(){
+	short blank;
+	//read();
+	display();
+	blank = count();
+
+	What_to_fill obj[blank];
+
+	short k=0;
+
+	for(short i=0;i<9;i++){
+		for(short j=0;j<9;j++){
+			if(arr[i][j]==0){
+					obj[k].add_i=i;
+					obj[k].add_j=j;
+					k++;
+			}
+		}
+	}
+
+	fill(obj[0]);
+
+	cin.get();
+	return 0;
+}
+
+void fill(What_to_fill obj){
+	short a=0,b=0,l=0;
+//1 row
+	for(a=0;a<9;a++){
+		if(arr[obj.add_i][a]!=0){ obj.arr[l] = arr[obj.add_i][a]; l++; }
+	}
+
+/*2 Column*/
+	for(a=0;a<9;a++){
+		if(arr[a][obj.add_j]!=0){ obj.arr[l] = arr[a][obj.add_j]; l++; }
+	}
+
+/*3 3x3 Box*/
+	if(obj.add_i<3) a=0; if(obj.add_i<6) a=3; if(obj.add_i<9) a=6;
+	if(obj.add_j<3) b=0; if(obj.add_j<6) b=3; if(obj.add_j<9) b=6;
+	for(a;a<(a+3);a++){
+		for(b;b<(b+3);b++){
+			if(arr[a][b]!=0){ obj.arr[l] = arr[obj.add_i][a]; l++; }
+		}
+	}
+	
+	cout<<"\nOBJ 0 detail\n";
+	cout<<"add_i:"<<obj.add_i<<endl;
+	cout<<"add_j:"<<obj.add_j<<endl;
+	for(int a=0;a<9;a++)
+	cout<<"arr "<<a<<":"<<obj.arr<<endl;
+}
+
+void read(){
+	char ch='A';
+	cout<<"  1 2 3 4 5 6 7 8 9\n"
+			<<"--------------------\n";
+	for(int i=0;i<9;i++){
+		cout<<ch++<<'|';
+		for(int j=0;j<9;j++){
+			cin>>arr[i][j];
+		}
+		cout<<endl;
+	}
+}
+
+int count(){
+	int count=0;
+	for(int i=0;i<9;i++){
+		for(int j=0;j<9;j++){
+			if(arr[i][j]!=0) count++;
+		}
+	}
+	cout<<"Filed: "<<count<<endl;
+	cout<<"Blank: "<<81-count<<endl;
+	return (81-count);
+}
+
+void display(){
+	char ch='A';
+	cout<<"    1 2 3 | 4 5 6 | 7 8 9\n"
+			<<"-------------------------\n";
+	for(int i=0;i<9;i++){
+			cout<<ch++;
+		for(int j=0;j<9;j++){
+			if(j==0) cout<<' ';
+			if(j%3==0) cout<<"| ";
+			if(arr[i][j]==0) cout<<' '/*Print instade of 0*/<<' ';
+			else cout<<arr[i][j]<<' ';
+		}
+		cout<<endl;
+		if(ch=='D' || ch=='G') cout<<"--|-------|-------|------\n";
+	}
+	cout<<"-------------------------\n";
+}
