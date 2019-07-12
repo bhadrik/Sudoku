@@ -35,7 +35,7 @@ int main(){
 		}
 	}
 
-	short k=0,l=0,a=0,b=0;
+	short k=0,l=0;
 
 	for(short i=0;i<9;i++){
 		for(short j=0;j<9;j++){
@@ -47,20 +47,43 @@ int main(){
 			}
 		}
 	}
-
+	short num;
+	cin>>num;
 	cin.get();
 	return 0;
 }
 
-void fill(What_to_fill obj,short k){
+void fill(What_to_fill obj, short k){		//Funcrion to fill the object
 	short a=0,b=0,l=0;
+	bool possible=true;
+
 //row
 	for(a=0;a<9;a++){
-		if(arr[obj.add_i][a]!=0){ obj.arr[l] = arr[obj.add_i][a]; l++; }
+		if(arr[obj.add_i][a]!=0){
+			for(int i=0;i<l;i++){
+				if(obj.arr[i]==arr[obj.add_i][a]){
+					possible = false; break;
+				}
+			}
+			if(possible){
+				obj.arr[l] = arr[obj.add_i][a];
+				l++;
+			}
+		}
 	}
 //column
 	for(a=0;a<9;a++){
-		if(arr[a][obj.add_j]!=0){ obj.arr[l] = arr[a][obj.add_j]; l++; }
+		if(arr[a][obj.add_j]!=0){
+			for(int i=0;i<l;i++){
+				if(obj.arr[i]==arr[a][obj.add_j]){
+					possible = false; break;
+				}
+			}
+			if(possible){
+				obj.arr[l] = arr[a][obj.add_j];
+				l++;
+			}
+		}
 	}
 //3x3
 	if(obj.add_i<3) a=0; else if(obj.add_i<6) a=3; else if(obj.add_i<9) a=6;
@@ -71,17 +94,25 @@ void fill(What_to_fill obj,short k){
 	for(a;a<x;a++){
 		if(obj.add_j<3) b=0; else if(obj.add_j<6) b=3; else if(obj.add_j<9) b=6;
 		for(b;b<y;b++){
-			if(arr[a][b]!=0){ obj.arr[l] = arr[a][b]; l++; }
+			if(arr[a][b]!=0){
+				for(int i=0;i<l;i++){
+					if(obj.arr[i]==arr[a][b]){
+						possible = false; break;
+					}
+				}
+				if(possible){
+					obj.arr[l] = arr[a][b];
+					l++;
+				}
+			}
 		}
 	}
-
 	cout<<"\nOBJ "<<k<<" detail\n";
 	cout<<"add_i:"<<obj.add_i<<endl;
 	cout<<"add_j:"<<obj.add_j<<endl;
 	cout<<"1 2 3 4 5 6 7 8 9"<<endl;
 	for(int a=0;a<9;a++)	cout<<obj.arr[a]<<" ";
 	cout<<"\n";
-
 }
 
 void read(){
