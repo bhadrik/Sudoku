@@ -29,6 +29,12 @@ int main(){
 
 	What_to_fill obj[blank];
 
+	for(int i=0;i<blank;i++){
+		for(int j=0;j<9;j++){
+			obj[i].arr[j]=0;
+		}
+	}
+
 	short k=0,l=0,a=0,b=0;
 
 	for(short i=0;i<9;i++){
@@ -48,21 +54,22 @@ int main(){
 
 void fill(What_to_fill obj,short k){
 	short a=0,b=0,l=0;
-
+//row
 	for(a=0;a<9;a++){
 		if(arr[obj.add_i][a]!=0){ obj.arr[l] = arr[obj.add_i][a]; l++; }
 	}
-
+//column
 	for(a=0;a<9;a++){
 		if(arr[a][obj.add_j]!=0){ obj.arr[l] = arr[a][obj.add_j]; l++; }
 	}
-
-	if(obj.add_i<3) a=0; if(obj.add_i<6) a=3; if(obj.add_i<9) a=6;
-	if(obj.add_j<3) b=0; if(obj.add_j<6) b=3; if(obj.add_j<9) b=6;
+//3x3
+	if(obj.add_i<3) a=0; else if(obj.add_i<6) a=3; else if(obj.add_i<9) a=6;
+	if(obj.add_j<3) b=0; else if(obj.add_j<6) b=3; else if(obj.add_j<9) b=6;
 
 	short x=a+3,y=b+3;
 
 	for(a;a<x;a++){
+		if(obj.add_j<3) b=0; else if(obj.add_j<6) b=3; else if(obj.add_j<9) b=6;
 		for(b;b<y;b++){
 			if(arr[a][b]!=0){ obj.arr[l] = arr[a][b]; l++; }
 		}
