@@ -107,7 +107,7 @@ void displaySudoku(){
 	}
 	cout<<"-------------------------\n";
 }
-//fill unction fills the willCome field of shudoku
+//initialFill function fills the willCome field of Sudoku
 void initialFill(Blank *obj){
 	short a=0,b=0,l=0;
 	bool possible=true;
