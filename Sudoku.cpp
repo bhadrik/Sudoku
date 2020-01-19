@@ -201,6 +201,8 @@ int main(){
 		// for(int i=0;i<blank;i++){
 		// 	obj[i].display();
 		// }
+		
+		//variable loop is useful to ctrl the number of iteration to do set it accorging to need
 		short loop = 2;
 		while(blank && loop--){
 			for(int i=0;i<blank;i++){
@@ -210,7 +212,7 @@ int main(){
 				}
 			}
 		}
-		cout<<"Solved :)"<<endl;
+		cout<<"Output"<<endl;
 		displaySudoku();
 
 		return 0;
