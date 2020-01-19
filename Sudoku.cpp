@@ -2,6 +2,8 @@
 #include <algorithm>
 using namespace std;
 
+//It can solve easy level sudoku only
+
 short int sudoku[9][9]={
 	2,7,5,6,4,0,8,3,0, //1
 	9,4,8,5,3,0,6,0,2, //2
@@ -203,7 +205,7 @@ int main(){
 		// }
 		
 		//variable loop is useful to ctrl the number of iteration to do set it accorging to need
-		short loop = 2;
+		short loop = 4;
 		while(blank && loop--){
 			for(int i=0;i<blank;i++){
 				if(!obj[i].isFilled){
