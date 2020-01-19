@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 
-short int shudoku[9][9]={
+short int sudoku[9][9]={
 	2,7,5,6,4,0,8,3,0, //1
 	9,4,8,5,3,0,6,0,2, //2
 	6,3,1,8,2,7,5,4,0, //3
@@ -70,8 +70,8 @@ private:
 		}
 	}
 	void apply(){
-		cout<<"Apply:"<<"("<<rowAddress+1<<","<<columnAddress+1<<")"<<endl;
-		shudoku[rowAddress][columnAddress] = applicableNumber;
+		// cout<<"Apply:"<<"("<<rowAddress+1<<","<<columnAddress+1<<")"<<endl;
+		sudoku[rowAddress][columnAddress] = applicableNumber;
 		isFilled = true;
 	}
 };
@@ -85,7 +85,7 @@ void read(){
 	for(int i=0;i<9;i++){
 		cout<<ch++<<'|';
 		for(int j=0;j<9;j++){
-			cin>>shudoku[i][j];
+			cin>>sudoku[i][j];
 		}
 		cout<<endl;
 	}
@@ -102,7 +102,7 @@ short countBlank(){
 	short count=0;
 	for(short i=0;i<9;i++){
 		for(short j=0;j<9;j++){
-			if(shudoku[i][j]!=0) count++;
+			if(sudoku[i][j]!=0) count++;
 		}
 	}
 	// cout<<"Filed: "<<count<<endl;
@@ -119,8 +119,8 @@ void displaySudoku(){
 		for(int j=0;j<9;j++){
 			if(j==0) cout<<' ';
 			if(j%3==0) cout<<"| ";
-			if(shudoku[i][j]==0) cout<<' '/*Print instade of 0*/<<' ';
-			else cout<<shudoku[i][j]<<' ';
+			if(sudoku[i][j]==0) cout<<' '/*Print instade of 0*/<<' ';
+			else cout<<sudoku[i][j]<<' ';
 		}
 		cout<<endl;
 		if(ch=='D' || ch=='G') cout<<"--|-------|-------|------\n";
@@ -128,21 +128,22 @@ void displaySudoku(){
 	cout<<"-------------------------\n";
 }
 
-//fill unction fills the willCome field of shudoku
+//fill unction fills the willCome field of sudoku
 void initialFill(Blank &obj){
 	short a=0,b=0;
 	bool possible=true;
 	//row
-	for(int i=0;i<9;i++) obj.willCome[shudoku[obj.rowAddress][i]] = 0;
+	for(int i=0;i<9;i++) obj.willCome[sudoku[obj.rowAddress][i]] = 0;
 	//column
-	for(int i=0;i<9;i++) obj.willCome[shudoku[i][obj.columnAddress]] = 0;
+	for(int i=0;i<9;i++) obj.willCome[sudoku[i][obj.columnAddress]] = 0;
 	//3x3
 	if(obj.rowAddress<3) a=0; else if(obj.rowAddress<6) a=3; else if(obj.rowAddress<9) a=6;
 	if(obj.columnAddress<3) b=0; else if(obj.columnAddress<6) b=3; else if(obj.columnAddress<9) b=6;
 	short x=a+3,y=b+3;
-	for(;a<x;a++)
-		for(;b<y;b++)
-			obj.willCome[shudoku[a][b]] = 0;
+	for(int i=a;i<x;i++)
+		for(int j=b;j<y;j++){
+			obj.willCome[sudoku[i][j]] = 0;
+		}
 	obj.initialProcess();
 }
 
@@ -174,13 +175,13 @@ int main(){
 	short count[9] = {0,0,0,0,0,0,0,0,0};
 	Blank obj[blank];
 
-	// displaySudoku();
+	displaySudoku();
 
 	//calling initiialFill function for each objcet
 	for(short i=0;i<9;i++){
 		for(short j=0;j<9;j++){
-			Blank::count[shudoku[i][j] - 1]++;
-			if(shudoku[i][j]==0){
+			Blank::count[sudoku[i][j] - 1]++;
+			if(sudoku[i][j]==0){
 				obj[k].rowAddress=i;
 				obj[k].columnAddress=j;
 				obj[k].objectNumber = k;
@@ -200,18 +201,17 @@ int main(){
 		// for(int i=0;i<blank;i++){
 		// 	obj[i].display();
 		// }
-		displaySudoku();
-		short loop = 1;
+		short loop = 2;
 		while(blank && loop--){
 			for(int i=0;i<blank;i++){
 				if(!obj[i].isFilled){
 					initialFill(obj[i]);
-					obj[i].display();
+					// obj[i].display();
 				}
 			}
-			displaySudoku();
-			cout<<"Blanks:"<<blank<<endl;
 		}
+		cout<<"Solved :)"<<endl;
+		displaySudoku();
 
 		return 0;
 	}
