@@ -1,4 +1,4 @@
 # Sudoku
 Program to solve Sudoku
-NOT DONE YET,
-UNDERDEVELOPMENT
+About to complete,
+But still UNDERDEVELOPMENT
