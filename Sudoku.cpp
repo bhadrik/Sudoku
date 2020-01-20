@@ -2,9 +2,7 @@
 #include <algorithm>
 using namespace std;
 
-//It can solve easy level sudoku only
-
-short int sudoku[9][9]={
+short sudoku[9][9]={
 	2,7,5,6,4,0,8,3,0, //1
 	9,4,8,5,3,0,6,0,2, //2
 	6,3,1,8,2,7,5,4,0, //3
@@ -41,6 +39,7 @@ public:
 	}
 
 	void initialProcess(){
+		// cout<<"("<<rowAddress+1<<","<<columnAddress+1<<")";
 		countPossibleNumbers();
 		if(possibleNumbers==1){
 			willCome[0]=1;
@@ -54,7 +53,7 @@ public:
 		cout<<"\nOBJ "<<objectNumber<<" detail "<<possibleNumbers<<" "<<isFilled<<endl;
 		cout<<"("<<rowAddress+1<<","<<columnAddress+1<<")"<<" pNum:"<<possibleNumbers<<" bit:"<<willCome[0]<<endl;
 		cout<<"1 2 3 4 5 6 7 8 9"<<endl;
-		for(int a=1;a<10;a++)	cout<<willCome[a]<<" ";
+		for(short a=1;a<10;a++)	cout<<willCome[a]<<" ";
 		cout<<"\n";
 	}
 
@@ -62,7 +61,7 @@ private:
 	short applicableNumber=0;
 	void countPossibleNumbers(){
 		possibleNumbers = 0;
-		for(int i=1;i<10;i++){
+		for(short i=1;i<10;i++){
 			if(willCome[i]){
 				possibleNumbers++;
 				applicableNumber = i;
@@ -73,6 +72,7 @@ private:
 	}
 	void apply(){
 		// cout<<"Apply:"<<"("<<rowAddress+1<<","<<columnAddress+1<<")"<<endl;
+		// cout<<"ok:"<<objectNumber+1<<endl;
 		sudoku[rowAddress][columnAddress] = applicableNumber;
 		isFilled = true;
 	}
@@ -84,9 +84,9 @@ void read(){
 	char ch='A';
 	cout<<"  1 2 3 4 5 6 7 8 9\n"
 			<<"--------------------\n";
-	for(int i=0;i<9;i++){
+	for(short i=0;i<9;i++){
 		cout<<ch++<<'|';
-		for(int j=0;j<9;j++){
+		for(short j=0;j<9;j++){
 			cin>>sudoku[i][j];
 		}
 		cout<<endl;
@@ -95,7 +95,7 @@ void read(){
 
 void printCount(short *count){
 	cout<<count[0];
-	for(int i=1;i<9;i++)
+	for(short i=1;i<9;i++)
 	cout<<","<<count[i];
 	cout<<endl;
 }
@@ -113,37 +113,36 @@ short countBlank(){
 }
 
 void displaySudoku(){
-	char ch='A';
 	cout<<"    1 2 3 | 4 5 6 | 7 8 9\n"
 			<<"-------------------------\n";
-	for(int i=0;i<9;i++){
-			cout<<ch++;
-		for(int j=0;j<9;j++){
+	for(short i=0;i<9;i++){
+			cout<<i+1;
+		for(short j=0;j<9;j++){
 			if(j==0) cout<<' ';
 			if(j%3==0) cout<<"| ";
-			if(sudoku[i][j]==0) cout<<' '/*Print instade of 0*/<<' ';
+			if(sudoku[i][j]==0) cout<<' '/*Print instead of 0*/<<' ';
 			else cout<<sudoku[i][j]<<' ';
 		}
 		cout<<endl;
-		if(ch=='D' || ch=='G') cout<<"--|-------|-------|------\n";
+		if(i==2 || i==5) cout<<"--|-------|-------|------\n";
 	}
 	cout<<"-------------------------\n";
 }
 
-//fill unction fills the willCome field of sudoku
+//fill function fills the willCome field of sudoku
 void initialFill(Blank &obj){
 	short a=0,b=0;
 	bool possible=true;
 	//row
-	for(int i=0;i<9;i++) obj.willCome[sudoku[obj.rowAddress][i]] = 0;
+	for(short i=0;i<9;i++) obj.willCome[sudoku[obj.rowAddress][i]] = 0;
 	//column
-	for(int i=0;i<9;i++) obj.willCome[sudoku[i][obj.columnAddress]] = 0;
+	for(short i=0;i<9;i++) obj.willCome[sudoku[i][obj.columnAddress]] = 0;
 	//3x3
 	if(obj.rowAddress<3) a=0; else if(obj.rowAddress<6) a=3; else if(obj.rowAddress<9) a=6;
 	if(obj.columnAddress<3) b=0; else if(obj.columnAddress<6) b=3; else if(obj.columnAddress<9) b=6;
 	short x=a+3,y=b+3;
-	for(int i=a;i<x;i++)
-		for(int j=b;j<y;j++){
+	for(short i=a;i<x;i++)
+		for(short j=b;j<y;j++){
 			obj.willCome[sudoku[i][j]] = 0;
 		}
 	obj.initialProcess();
@@ -161,10 +160,9 @@ void initialFill(Blank &obj){
 // 	short targetNumber = indexOf(*maximaum);
 // }
 
-short countBlankObjects(Blank* obj){
+short countBlankObjects(Blank* obj, short blank){
 	short count=0;
-	short blank = countBlank();
-	for(int i=0;i<blank;i++){
+	for(short i=0;i<blank;i++){
 		if(!(obj[i].isFilled)) count++;
 	}
 	return count;
@@ -177,9 +175,10 @@ int main(){
 	short count[9] = {0,0,0,0,0,0,0,0,0};
 	Blank obj[blank];
 
+	cout<<"Inpuut"<<endl;
 	displaySudoku();
 
-	//calling initiialFill function for each objcet
+	//Initializing each object
 	for(short i=0;i<9;i++){
 		for(short j=0;j<9;j++){
 			Blank::count[sudoku[i][j] - 1]++;
@@ -187,34 +186,28 @@ int main(){
 				obj[k].rowAddress=i;
 				obj[k].columnAddress=j;
 				obj[k].objectNumber = k;
-				initialFill(obj[k]);
 				k++;
 			}
 		}
 	}
 
-	// short loop = 3;
-	// while(loop-- && blank){
-	// 	blank = countBlankObjects(obj,blank);
-	// 	int
-	// }
 	{
-		// Blank::printCount();
-		// for(int i=0;i<blank;i++){
-		// 	obj[i].display();
-		// }
-		
-		//variable loop is useful to ctrl the number of iteration to do set it accorging to need
-		short loop = 4;
-		while(blank && loop--){
-			for(int i=0;i<blank;i++){
+		short avail = blank;
+		while(avail){
+			// cout<<"----------------"<<endl;
+			for(short i=0;i<blank;i++){
 				if(!obj[i].isFilled){
 					initialFill(obj[i]);
 					// obj[i].display();
+					// for(short j=1;j<10;j++)
+					// 	if(obj[i].willCome[j])
+					// 	cout<<j<<" ";
+					// cout<<endl;
 				}
 			}
+			avail = countBlankObjects(obj,blank);
 		}
-		cout<<"Output"<<endl;
+		cout<<"\nOutput"<<endl;
 		displaySudoku();
 
 		return 0;
