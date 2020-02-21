@@ -1,9 +1,5 @@
 #include "Sudoku.h"
-/*
-*	Camel Case: firstName
-*	Pascal Case:FirstName
-*	Hungarian Notation: strFirstName
-*/
+
 /*copy for Input
 	2 7 5 6 4 0 8 3 0
 	9 0 8 0 3 0 6 0 2
@@ -47,15 +43,18 @@ int main(){
 	// };
 	
 	Sudoku s(sudoku);
-
+	
+	// Function to take input from user
 	// s.input();
 	
 	cout<<"Input"<<endl;
 	s.display();
 	
+	//Simple function call to solve the sudoku
 	s.solve();
 	
 	cout<<"\nOutput"<<endl;
 	s.display();
+	
 	return 0;
 }
