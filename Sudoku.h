@@ -144,7 +144,7 @@ private:
 		return tmp;
 	}
 	
-	short biggsetOfList(){
+	short maxOfList(){
 		short max=0,index=-1;
 		for(short i=0;i<9;i++)
 			if(list[i]>max){
