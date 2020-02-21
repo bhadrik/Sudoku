@@ -7,7 +7,7 @@
 	0 6 0 0 5 3 0 0 4
 	7 5 4 2 0 8 3 0 6
 	0 2 3 0 0 6 0 5 0
-	0 8 0 0 6 2 4 0 5
+	0 0 0 0 0 0 0 0 0
 	4 0 2 1 0 5 7 0 3
 	5 0 6 3 0 0 0 0 0
 */
@@ -43,12 +43,12 @@ int main(){
 	// };
 	
 	Sudoku s(sudoku);
-	
+
 	bool input = false;
 	
-	cout<<"+-----------------+ +--------------------+\n"
-	    <<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
-	    <<"+-----------------+ +--------------------+\n";
+	cout<<"+------------------+ +--------------------+\n"
+	    <<"| 1->INSERT SUDOKU | | 0->GO WITH DEFAULT |\n"
+	    <<"+------------------+ +--------------------+\n";
 	cin>>input;
 	
 	if(input)
@@ -57,7 +57,6 @@ int main(){
 	cout<<"Input"<<endl;
 	s.display();
 	
-	//Simple function call to solve the sudoku
 	s.solve();
 	
 	cout<<"\nOutput"<<endl;
