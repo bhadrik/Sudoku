@@ -40,7 +40,10 @@ public:
 			count++;
 		}
 		if(count >= MAXLOOP)
-			cout<<"CAN'T SOLVE!\nIncreasing MAXLOOP little may halp, if not your sudoku is hard to solve :)\n";
+			cout<<"+--------------------------------------------------------------------------+\n"
+			    <<"|CAN'T SOLVE!                                                              |\n"
+			    <<"|Increasing MAXLOOP little may halp, if not your sudoku is hard to solve :)|\n"
+			    <<"+--------------------------------------------------------------------------+\n";
 	}
 	
 	void input(){
