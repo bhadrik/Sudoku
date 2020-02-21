@@ -1,6 +1,6 @@
 # Sudoku
 Console application to solve Sudoku.
-Sudoku.cpp file is a code that can solve easy level sudoku.
+Sudoku class contain all the different functions to solve the sudoku and BlankSpace class is used to manage each empty field in sudku.
 
 # How to use
 (Skip step 1 & 2 if you don't want to use custom sudoku)
