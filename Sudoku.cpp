@@ -44,8 +44,15 @@ int main(){
 	
 	Sudoku s(sudoku);
 	
-	// Function to take input from user
-	// s.input();
+	bool input = false;
+	
+	cout<<"+-----------------+ +--------------------+\n"
+		<<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
+		<<"+-----------------+ +--------------------+\n";
+	cin>>input;
+	
+	if(input)
+		s.input();
 	
 	cout<<"Input"<<endl;
 	s.display();
