@@ -29,7 +29,7 @@ public:
 		short count = 0;
 		
 		//Call the processObj untill all the 
-		//blanks are filled and variable "avail" become 0
+		//blanks are filled and variable "avail become 0
 		while(avail && count<MAXLOOP){
 			for(short i=0;i<blank;i++){
 				if(!obj[i].isFilled){
@@ -40,7 +40,7 @@ public:
 			count++;
 		}
 		if(count >= MAXLOOP)
-			cout<<"Can't solve! Increasing MAXLOOP little may halp, if not your sudoku is hard to solve :)\n";
+			cout<<"CAN'T SOLVE!\nIncreasing MAXLOOP little may halp, if not your sudoku is hard to solve :)\n";
 	}
 	
 	void input(){
@@ -58,7 +58,7 @@ public:
 	
 	void display(){
 		cout<<"    1 2 3 | 4 5 6 | 7 8 9\n"
-				<<"-------------------------\n";
+				<<"  +-------+-------+-------+\n";
 		for(short i=0;i<9;i++){
 				cout<<i+1;
 			for(short j=0;j<9;j++){
@@ -67,10 +67,10 @@ public:
 				if(sudoku[i][j]==0) cout<<' '/*Print instead of 0*/<<' ';
 				else cout<<sudoku[i][j]<<' ';
 			}
-			cout<<endl;
-			if(i==2 || i==5) cout<<"--|-------|-------|------\n";
+			cout<<"|"<<endl;
+			if(i==2 || i==5) cout<<"  +-------+-------+-------+\n";
 		}
-		cout<<"-------------------------\n";
+		cout<<"  +-------+-------+-------+\n";
 	}
 	
 private:
