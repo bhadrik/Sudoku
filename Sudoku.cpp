@@ -47,8 +47,8 @@ int main(){
 	bool input = false;
 	
 	cout<<"+-----------------+ +--------------------+\n"
-		<<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
-		<<"+-----------------+ +--------------------+\n";
+	    <<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
+	    <<"+-----------------+ +--------------------+\n";
 	cin>>input;
 	
 	if(input)
