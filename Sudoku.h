@@ -5,7 +5,7 @@ class Sudoku{
 public:
 	Sudoku(short su[9][9]){
 		copy(&su[0][0],&su[0][0]+81,&sudoku[0][0]);
-		blank = countBlank();
+		blank = countEmptyFields();
 	}
 	
 	// calling initiialFill function for each blank spaces
@@ -15,11 +15,11 @@ public:
 		//Setup all objects
 		for(short i=0;i<9;i++){
 			for(short j=0;j<9;j++){
-				BlankSpace::count[sudoku[i][j] - 1]++;
+				BlankSpace::increaseCount(sudoku[i][j] - 1);
 				if(sudoku[i][j]==0){
-					obj[k].rowAddress=i;
-					obj[k].columnAddress=j;
-					obj[k].objectNumber = k;
+					obj[k].set(0,1,i);	//rowAddress
+					obj[k].set(0,2,j);	//columnAddress
+					obj[k].set(0,3,k);	//objectNumber
 					k++;
 				}
 			}
@@ -32,7 +32,7 @@ public:
 		//blanks are filled and variable "avail become 0
 		while(avail && count<MAXLOOP){
 			for(short i=0;i<blank;i++){
-				if(!obj[i].isFilled){
+				if(!obj[i].isFilled()){
 					processObj(obj[i], sudoku);
 				}
 			}
@@ -44,6 +44,10 @@ public:
 			    <<"|CAN'T SOLVE!                                                              |\n"
 			    <<"|Increasing MAXLOOP little may halp, if not your sudoku is hard to solve :)|\n"
 			    <<"+--------------------------------------------------------------------------+\n";
+	}
+	
+	short blanks(){
+		return blank;
 	}
 	
 	void input(){
@@ -76,47 +80,55 @@ public:
 		cout<<"  +-------+-------+-------+\n";
 	}
 	
+	void displayObj(short index){
+		obj[index].display();
+	}
+	
+	void printCount(){
+		BlankSpace::printCount();
+	}
+	
 private:
 	short sudoku[9][9];
 	short blank;
 	short count[9] = {0,0,0,0,0,0,0,0,0};
 	BlankSpace* obj = new BlankSpace[blank];
 	
-	//fill function fills the willCome field of sudoku
+	//fill function fills the mask field of sudoku
 	void processObj(BlankSpace &obj, short sudoku[9][9]){
 		short a=0,b=0;
 		bool possible=true;
 		//row
-		for(short i=0;i<9;i++) obj.willCome[sudoku[obj.rowAddress][i]] = 0;
+		for(short i=0;i<9;i++) obj.set(1,sudoku[obj.get(0,1)][i],0);
 		//column
-		for(short i=0;i<9;i++) obj.willCome[sudoku[i][obj.columnAddress]] = 0;
+		for(short i=0;i<9;i++) obj.set(1,sudoku[i][obj.get(0,2)],0);
 		//3x3
-		if(obj.rowAddress<3) a=0; else if(obj.rowAddress<6) a=3; else if(obj.rowAddress<9) a=6;
-		if(obj.columnAddress<3) b=0; else if(obj.columnAddress<6) b=3; else if(obj.columnAddress<9) b=6;
+		if(obj.get(0,1)<3) a=0; else if(obj.get(0,1)<6) a=3; else if(obj.get(0,1)<9) a=6;
+		if(obj.get(0,2)<3) b=0; else if(obj.get(0,2)<6) b=3; else if(obj.get(0,2)<9) b=6;
 		short x=a+3,y=b+3;
 		
 		for(short i=a;i<x;i++)
 		for(short j=b;j<y;j++)
-		obj.willCome[sudoku[i][j]] = 0;
+		obj.set(1,sudoku[i][j],0);
 		
 		deepSearch();
 		
-		obj.initialProcess(sudoku);
+		obj.process(sudoku);
 	}
 	
 	void deepSearch(){
-		//Deep filling
+		//Function for deep search
 	}
 	
 	short countBlankObjects(){
 		short count=0;
 		for(short i=0;i<blank;i++){
-			if(!(obj[i].isFilled)) count++;
+			if(!obj[i].isFilled()) count++;
 		}
 		return count;
 	}
 	
-	short countBlank(){
+	short countEmptyFields(){
 		short count=0;
 		for(short i=0;i<9;i++){
 			for(short j=0;j<9;j++){
