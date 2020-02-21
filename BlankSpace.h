@@ -10,38 +10,78 @@ public:
 		rowAddress = 0;
 		columnAddress = 0;
 		possibleNumbers = 0;
-		isFilled = false;
+		status = false;
 	}
 	
 	void display(){
-		cout<<"\nOBJ "<<objectNumber<<" isFilled: "<<isFilled<<endl;
-		cout<<"("<<rowAddress+1<<","<<columnAddress+1<<")"<<" pNum:"<<possibleNumbers<<" bit:"<<willCome[0]<<endl;
+		cout<<"\nOBJ "<<objectNumber<<" status: "<<status<<endl;
+		cout<<"("<<rowAddress+1<<","<<columnAddress+1<<")"<<" pNum:"<<possibleNumbers<<" bit:"<<mask[0]<<endl;
 		cout<<"1 2 3 4 5 6 7 8 9"<<endl;
-		for(short a=1;a<10;a++)	cout<<willCome[a]<<" ";
+		for(short a=1;a<10;a++)	cout<<mask[a]<<" ";
 		cout<<"\n";
 	}
 	
-	bool isFilled;
-	short objectNumber,possibleNumbers,applicableNumber,
-				rowAddress,columnAddress;
-	bool willCome[10] = {0,1,1,1,1,1,1,1,1,1};
-	static short count[9];
+	inline static void printCount(){
+		cout<<count[0];
+		for(short i=1;i<9;i++)
+			cout<<","<<count[i];
+		cout<<endl;
+	}
+	
+	short get(bool key, short index){
+		if(!key)
+		switch(index){
+			case 1: return rowAddress;
+			case 2: return columnAddress;
+			case 3: return objectNumber;
+			case 4: return possibleNumbers;
+			case 5: return applicableNumber;
+		}
+		else return ((short)mask[index]);
+		return 0;
+	}
+	
+	void set(bool key,short index, short data){
+		if(!key)
+		switch(index){
+			case 1: rowAddress = data;
+			case 2: columnAddress = data;
+			case 3: objectNumber = data;
+			case 4: possibleNumbers = data;
+			case 5: applicableNumber = data;
+		}
+		else mask[index] = data;
+	}
+	
+	inline static void increaseCount(short index){
+		count[index]++;
+	}
+	
+	bool isFilled(){
+		return status;
+	}
 
-	void initialProcess(short sudoku[9][9]){
-		// cout<<"("<<rowAddress+1<<","<<columnAddress+1<<")";
+	void process(short sudoku[9][9]){
 		countPossibleNumbers();
 		if(possibleNumbers==1){
-			willCome[0]=1;
+			mask[0]=1;
 			apply(sudoku);
 		}
 		else applicableNumber = 0;
 	}
 
+//----------------------------------------------------------------
 private:
+	bool status;
+	short objectNumber,possibleNumbers,applicableNumber,
+	rowAddress,columnAddress;
+	bool mask[10] = {0,1,1,1,1,1,1,1,1,1};
+	static short count[9];
+	
 	void countPossibleNumbers(){
 		possibleNumbers = 0;
 		for(short i=1;i<10;i++){
-			if(willCome[i]){
+			if(mask[i]){
 				possibleNumbers++;
 				applicableNumber = i;
 			}
@@ -51,10 +91,8 @@ private:
 	}
 	
 	void apply(short sudoku[9][9]){
-		// cout<<"Apply:"<<"("<<rowAddress+1<<","<<columnAddress+1<<")"<<endl;
-		// cout<<"ok:"<<objectNumber+1<<endl;
 		sudoku[rowAddress][columnAddress] = applicableNumber;
-		isFilled = true;
+		status = true;
 	}
 };
 //Initialize Blank class static member
