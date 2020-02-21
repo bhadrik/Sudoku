@@ -15,13 +15,15 @@ public:
 		//Setup all objects
 		for(short i=0;i<9;i++){
 			for(short j=0;j<9;j++){
-				BlankSpace::increaseCount(sudoku[i][j] - 1);
 				if(sudoku[i][j]==0){
 					obj[k].set(0,1,i);	//rowAddress
 					obj[k].set(0,2,j);	//columnAddress
 					obj[k].set(0,3,k);	//objectNumber
 					k++;
 				}
+				else
+					list[sudoku[i][j]-1] += 1;
+					//list[sudoku[i][j]-1]++ <--NOT WORKING, WHY???
 			}
 		}
 		
@@ -84,14 +86,17 @@ public:
 		obj[index].display();
 	}
 	
-	void printCount(){
-		BlankSpace::printCount();
+	inline void printList(){
+		cout<<list[0];
+		for(short i=1;i<9;i++)
+			cout<<","<<list[i];
+		cout<<endl;
 	}
 	
 private:
 	short sudoku[9][9];
 	short blank;
-	short count[9] = {0,0,0,0,0,0,0,0,0};
+	short list[9] = {0,0,0,0,0,0,0,0,0};
 	BlankSpace* obj = new BlankSpace[blank];
 	
 	//fill function fills the mask field of sudoku
@@ -118,23 +123,43 @@ private:
 	
 	void deepSearch(){
 		//Function for deep search
+		
 	}
 	
 	short countBlankObjects(){
-		short count=0;
+		short tmp=0;
 		for(short i=0;i<blank;i++){
-			if(!obj[i].isFilled()) count++;
+			if(!obj[i].isFilled()) tmp++;
 		}
-		return count;
+		return tmp;
 	}
 	
 	short countEmptyFields(){
-		short count=0;
+		short tmp=0;
 		for(short i=0;i<9;i++){
 			for(short j=0;j<9;j++){
-				if(sudoku[i][j]!=0) count++;
+				if(sudoku[i][j]==0) tmp++;
 			}
 		}
-		return (81-count);
+		return tmp;
+	}
+	
+	short biggsetOfList(){
+		short max=0,index=-1;
+		for(short i=0;i<9;i++)
+			if(list[i]>max){
+				max = list[i];
+				index = i;
+			}
+			list[index] = 0;
+		return max;
+	}
+	
+	void reList(){
+		for(short i=0;i<9;i++)	list[i] = 0;
+		for(short i=0;i<9;i++)
+		for(short j=0;j<9;j++)
+			if(sudoku[i][j]==0)
+			list[sudoku[i][j]-1] += 1;
 	}
 };
