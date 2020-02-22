@@ -20,12 +20,14 @@ public:
 		for(short a=1;a<10;a++)	cout<<mask[a]<<" ";
 		cout<<"\n";
 	}
-	
-	inline static void printCount(){
-		cout<<count[0];
-		for(short i=1;i<9;i++)
-			cout<<","<<count[i];
-		cout<<endl;
+
+	void initialProcess(short sudoku[9][9]){
+		countPossibleNumbers();
+		if(possibleNumbers==1){
+			mask[0]=1;
+			apply(sudoku);
+		}
+		else applicableNumber = 0;
 	}
 	
 	short get(bool key, short index){
@@ -53,30 +55,15 @@ public:
 		else mask[index] = data;
 	}
 	
-	inline static void increaseCount(short index){
-		count[index]++;
-	}
-	
 	bool isFilled(){
 		return status;
 	}
 
-	void process(short sudoku[9][9]){
-		countPossibleNumbers();
-		if(possibleNumbers==1){
-			mask[0]=1;
-			apply(sudoku);
-		}
-		else applicableNumber = 0;
-	}
-
-//----------------------------------------------------------------
 private:
 	bool status;
 	short objectNumber,possibleNumbers,applicableNumber,
 	rowAddress,columnAddress;
 	bool mask[10] = {0,1,1,1,1,1,1,1,1,1};
-	static short count[9];
 	
 	void countPossibleNumbers(){
 		possibleNumbers = 0;
@@ -95,5 +82,3 @@ private:
 		status = true;
 	}
 };
-//Initialize Blank class static member
-short BlankSpace::count[9] = {0,0,0,0,0,0,0,0,0};

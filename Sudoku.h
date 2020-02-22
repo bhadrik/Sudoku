@@ -21,38 +21,40 @@ public:
 					obj[k].set(0,3,k);	//objectNumber
 					k++;
 				}
-				else
-					list[sudoku[i][j]-1] += 1;
-					//list[sudoku[i][j]-1]++ <--NOT WORKING, WHY???
 			}
 		}
 		
 		short avail = blank;
-		short count = 0;
+		short loop = 0;
 		
 		//Call the processObj untill all the 
 		//blanks are filled and variable "avail become 0
-		while(avail && count<MAXLOOP){
+		while(avail && loop<MAXLOOP){
 			for(short i=0;i<blank;i++){
 				if(!obj[i].isFilled()){
 					processObj(obj[i], sudoku);
 				}
 			}
 			avail = countBlankObjects();
-			count++;
+			loop++;
 		}
-		if(count >= MAXLOOP)
-			cout<<"+--------------------------------------------------------------------------+\n"
-			    <<"|CAN'T SOLVE!                                                              |\n"
-			    <<"|Increasing MAXLOOP little may halp, if not your sudoku is hard to solve :)|\n"
-			    <<"+--------------------------------------------------------------------------+\n";
-	}
-	
-	short blanks(){
-		return blank;
+		if(loop >= MAXLOOP || avail)
+			cout<<"+-----------------------------------------+\n"
+			    <<"| CAN'T SOLVE!                            |\n"
+			    <<"| Increaing MAXLOOP little may halp.      |\n"
+			    <<"| If not, your sudoku is hard to solve :) |\n"
+			    <<"+-----------------------------------------+\n";
+		cout<<"Avail: "<<avail<<endl;
 	}
 	
 	void input(){
+		bool input = false;
+		
+		cout<<"+-----------------+ +--------------------+\n"
+				<<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
+				<<"+-----------------+ +--------------------+\n";
+		cin>>input;
+		if(!input) return;
 		char ch='A';
 		cout<<"  1 2 3 4 5 6 7 8 9\n"
 				<<"--------------------\n";
@@ -86,11 +88,10 @@ public:
 		obj[index].display();
 	}
 	
-	inline void printList(){
-		cout<<list[0];
-		for(short i=1;i<9;i++)
-			cout<<","<<list[i];
-		cout<<endl;
+	void displayObj(short x, short y){
+		for(short i=0;i<blank;i++)
+			if(x==obj[i].get(0,1) && y==obj[i].get(0,2))
+				obj[i].display();
 	}
 	
 private:
@@ -118,12 +119,11 @@ private:
 		
 		deepSearch();
 		
-		obj.process(sudoku);
+		obj.initialProcess(sudoku);
 	}
 	
 	void deepSearch(){
 		//Function for deep search
-		
 	}
 	
 	short countBlankObjects(){
