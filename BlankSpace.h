@@ -33,13 +33,13 @@ public:
 	short get(bool key, short index){
 		if(!key)
 		switch(index){
-			case 1: return rowAddress;
-			case 2: return columnAddress;
-			case 3: return objectNumber;
-			case 4: return possibleNumbers;
-			case 5: return applicableNumber;
+			case 1: return rowAddress;  				//(0,1)
+			case 2: return columnAddress; 			//(0,2)
+			case 3: return objectNumber;				//(0,3)
+			case 4: return possibleNumbers;			//(0,4)
+			case 5: return applicableNumber;		//(0,5)
 		}
-		else return ((short)mask[index]);
+		else return ((short)mask[index]);			//get(1,1-9)
 		return 0;
 	}
 	

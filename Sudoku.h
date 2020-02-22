@@ -84,14 +84,19 @@ public:
 		cout<<"  +-------+-------+-------+\n";
 	}
 	
+	//display object by providing its index
 	void displayObj(short index){
 		obj[index].display();
 	}
 	
+	//display object by providing its location in sudoku
 	void displayObj(short x, short y){
+		x--; y--;
 		for(short i=0;i<blank;i++)
-			if(x==obj[i].get(0,1) && y==obj[i].get(0,2))
+			if(x==obj[i].get(0,1) && y==obj[i].get(0,2)){
 				obj[i].display();
+				break;
+			}
 	}
 	
 private:
