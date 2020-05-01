@@ -101,7 +101,7 @@ public:
 	
 private:
 	short sudoku[9][9];
-	short blank;
+	short blank = countEmptyFields();
 	short list[9] = {0,0,0,0,0,0,0,0,0};
 	BlankSpace* obj = new BlankSpace[blank];
 	
