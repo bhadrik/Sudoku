@@ -28,9 +28,6 @@ public:
 
 		//Call the processObj untill all the
 		//blanks are filled and variable "avail become 0
-		cout<<"Loop:0"<<" Avail:"<<avail<<endl;
-			for(int i=0;i<blank;i++)
-                obj[i].printMask();
 		while(avail && loop<MAXLOOP){
 			for(short i=0;i<blank;i++){
 				if(!obj[i].isFilled()){
@@ -39,34 +36,32 @@ public:
 			}
 			avail = countBlankObjects();
 			loop++;
-			cout<<"Loop:"<<loop<<" Avail:"<<avail<<endl;
-			for(int i=0;i<blank;i++)
-                obj[i].printMask();
 		}
-		if(loop >= MAXLOOP || avail)
-			cout<<"+-----------------------------------------+\n"
+		if(loop >= MAXLOOP || avail){\
+            cout<<"+-----------------------------------------+\n"
 			    <<"| CAN'T SOLVE!                            |\n"
 			    <<"| Increaing MAXLOOP little may halp.      |\n"
 			    <<"| If not, your sudoku is hard to solve :) |\n"
 			    <<"+-----------------------------------------+\n";
-		cout<<"Avail: "<<avail<<endl;
+            cout<<"Avail: "<<avail<<endl;
+		}
 	}
 
 	void input(){
 		bool input = false;
 
 		cout<<"+-----------------+ +--------------------+\n"
-			<<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
-			<<"+-----------------+ +--------------------+\n";
+				<<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
+				<<"+-----------------+ +--------------------+\n";
 		cin>>input;
 		if(!input){
-			blank = countEmptyFields();
-           		obj = new BlankSpace[blank];
-			return;
+		    blank = countEmptyFields();
+            obj = new BlankSpace[blank];
+		    return;
 		}
 		char ch='A';
 		cout<<"  1 2 3 4 5 6 7 8 9\n"
-			<<"--------------------\n";
+				<<"--------------------\n";
 		for(short i=0;i<9;i++){
 			cout<<ch++<<'|';
 			for(short j=0;j<9;j++){
@@ -80,7 +75,7 @@ public:
 
 	void display(){
 		cout<<"    1 2 3 | 4 5 6 | 7 8 9\n"
-			<<"  +-------+-------+-------+\n";
+				<<"  +-------+-------+-------+\n";
 		for(short i=0;i<9;i++){
 				cout<<i+1;
 			for(short j=0;j<9;j++){
