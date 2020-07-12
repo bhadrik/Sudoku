@@ -1,5 +1,5 @@
 #include "BlankSpace.h"
-#define MAXLOOP 10
+#define MAXLOOP 20
 
 class Sudoku{
 public:
@@ -10,53 +10,58 @@ public:
 	// calling initiialFill function for each blank spaces
 	// to initalize it's object
 	void solve(){
-		short k=0;
+		short k=1;
 		//Setup all objects
 		for(short i=0;i<9;i++){
 			for(short j=0;j<9;j++){
+                obj[i][j].set(0,3,0);
 				if(sudoku[i][j]==0){
-					obj[k].set(0,1,i);	//rowAddress
-					obj[k].set(0,2,j);	//columnAddress
-					obj[k].set(0,3,k);	//objectNumber
+					obj[i][j].set(0,1,i);	//rowAddress
+					obj[i][j].set(0,2,j);	//columnAddress
+					obj[i][j].set(0,3,k);	//objectNumber
 					k++;
+				}
+				else{
+                    obj[i][j].changStatus(1);
+                    obj[i][j].set(0,3,0);     // objectNumber of already filled number is 0.
 				}
 			}
 		}
 
-		short avail = blank;
-		short loop = 0;
-
 		//Call the processObj untill all the
 		//blanks are filled and variable "avail become 0
 		while(avail && loop<MAXLOOP){
-			for(short i=0;i<blank;i++){
-				if(!obj[i].isFilled()){
-					processObj(obj[i], sudoku);
+			for(short i=0;i<9;i++)
+            for(short j=0;j<9;j++){
+				if(!obj[i][j].isFilled()){
+					processObj(obj[i][j], sudoku);
 				}
 			}
 			avail = countBlankObjects();
 			loop++;
 		}
 		if(loop >= MAXLOOP || avail){\
-            cout<<"+-----------------------------------------+\n"
-			    <<"| CAN'T SOLVE!                            |\n"
-			    <<"| Increaing MAXLOOP little may halp.      |\n"
-			    <<"| If not, your sudoku is hard to solve :) |\n"
-			    <<"+-----------------------------------------+\n";
+            cout<<"+--------------------------------------------+\n"
+			    <<"| CAN'T SOLVE!                               |\n"
+			    <<"| Increaing MAXLOOP little may halp.         |\n"
+			    <<"| If not, your sudoku is harder than hard :) |\n"
+			    <<"+--------------------------------------------+\n";
             cout<<"Avail: "<<avail<<endl;
 		}
+		cout<<"Total loop:"<<loop<<endl;
 	}
 
 	void input(){
 		bool input = false;
 
 		cout<<"+-----------------+ +--------------------+\n"
-				<<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
-				<<"+-----------------+ +--------------------+\n";
+			<<"| 1->INPUT SUDOKU | | 0->GO WITH DEFAULT |\n"
+			<<"+-----------------+ +--------------------+\n";
+		
 		cin>>input;
 		if(!input){
 		    blank = countEmptyFields();
-            obj = new BlankSpace[blank];
+		    avail = blank;
 		    return;
 		}
 		char ch='A';
@@ -70,7 +75,7 @@ public:
 		}
 		cout<<endl;
 		blank = countEmptyFields();
-		obj = new BlankSpace[blank];
+		avail = blank;
 	}
 
 	void display(){
@@ -92,55 +97,76 @@ public:
 
 	//display object by providing its index
 	void displayObj(short index){
-		obj[index].display();
+		for(short i=0;i<9;i++)
+		for(short j=0;j<9;j++)
+            if(obj[i][j].get(0,3) == index)
+                obj[i][j].display();
 	}
 
 	//display object by providing its location in sudoku
 	void displayObj(short x, short y){
-		x--; y--;
-		for(short i=0;i<blank;i++)
-			if(x==obj[i].get(0,1) && y==obj[i].get(0,2)){
-				obj[i].display();
-				break;
-			}
+	    obj[--x][--y].display();
 	}
 
 private:
 	short sudoku[9][9];
 	short blank = countEmptyFields();
 	short list[9] = {0,0,0,0,0,0,0,0,0};
-	BlankSpace* obj;
+	BlankSpace obj[9][9];
+	short avail;
+    short loop = 0;
 
 	//fill function fills the mask field of sudoku
-	void processObj(BlankSpace &obj, short sudoku[9][9]){
+	void processObj(BlankSpace &objOne, short sudoku[9][9]){
 		short a=0,b=0;
-		bool possible=true;
 		//row
-		for(short i=0;i<9;i++) obj.set(1,sudoku[obj.get(0,1)][i],0);
+		for(short i=0;i<9;i++) objOne.set(1,sudoku[objOne.get(0,1)][i],0);
 		//column
-		for(short i=0;i<9;i++) obj.set(1,sudoku[i][obj.get(0,2)],0);
+		for(short i=0;i<9;i++) objOne.set(1,sudoku[i][objOne.get(0,2)],0);
 		//3x3
-		if(obj.get(0,1)<3) a=0; else if(obj.get(0,1)<6) a=3; else if(obj.get(0,1)<9) a=6;
-		if(obj.get(0,2)<3) b=0; else if(obj.get(0,2)<6) b=3; else if(obj.get(0,2)<9) b=6;
+		if(objOne.get(0,1)<3) a=0; else if(objOne.get(0,1)<6) a=3; else if(objOne.get(0,1)<9) a=6;
+		if(objOne.get(0,2)<3) b=0; else if(objOne.get(0,2)<6) b=3; else if(objOne.get(0,2)<9) b=6;
 		short x=a+3,y=b+3;
 
 		for(short i=a;i<x;i++)
-		for(short j=b;j<y;j++)
-		obj.set(1,sudoku[i][j],0);
+		for(short j=b;j<y;j++){
+            objOne.set(1,sudoku[i][j],0);
+		}
 
-		deepSearch();
+		//One step ahed search
+		deepSearch(objOne, sudoku, a, b);
 
-		obj.initialProcess(sudoku);
+		objOne.initialProcess(sudoku);
 	}
 
-	void deepSearch(){
-		//Function for deep search
+	void deepSearch(BlankSpace &objOne, short sudoku[9][9], short a, short b){
+	    short x=a+3, y=b+3;
+        if(loop>0){
+            for(int l=1;l<10;l++){
+
+                if(objOne.get(1,l)==1){
+
+                    bool possible = true;
+                    for(short i=a;i<x;i++){
+                    for(short j=b;j<y;j++){
+                            //objectNumber != 0      Not same object
+                        if(obj[i][j].get(0,3) !=0 && obj[i][j].get(0,3) != objOne.get(0,3) && !obj[i][j].isFilled()){
+                            if(obj[i][j].get(1,l) !=0){ possible = false; break; }
+                        }
+                    }
+                        if(!possible) break;
+                    }
+                    if(possible) objOne.forceApplly(sudoku, l);
+                }
+            }
+        }
 	}
 
 	short countBlankObjects(){
 		short tmp=0;
-		for(short i=0;i<blank;i++){
-			if(!obj[i].isFilled()) tmp++;
+		for(short i=0;i<9;i++)
+        for(short j=0;j<9;j++){
+			if(!obj[i][j].isFilled()) tmp++;
 		}
 		return tmp;
 	}
