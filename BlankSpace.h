@@ -58,6 +58,12 @@ public:
 	bool isFilled(){
 		return status;
 	}
+	
+	void forceApply(short sudoku[9][9], short forceApplicableNumber){
+		cout<<"ForceApply:";
+		applicableNumber = forceApplicableNumber;
+        	apply(sudoku);
+	}
 
 private:
 	bool status;
