@@ -156,7 +156,7 @@ private:
                     }
                         if(!possible) break;
                     }
-                    if(possible) objOne.forceApplly(sudoku, l);
+                    if(possible) objOne.forceApply(sudoku, l);
                 }
             }
         }
