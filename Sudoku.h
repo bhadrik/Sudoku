@@ -204,15 +204,15 @@ private:
 	    for(short l=0;l<9;l+=3){
             short x=r+3, y=l+3;
             short emptyObj=0, m=0;
-            short adr[2][2];
+            short adr[2];
             for(short i=r;i<x;i++){
                 m=0;
             for(short j=l;j<y;j++){
-                if(!obj[i][j].isFilled()) {emptyObj++; adr[m][0]=i; adr[m][1]=j; m++; }
+                if(!obj[i][j].isFilled()) {emptyObj++; adr[0]=i; adr[1]=j; m++; }
             }
             }
             if(emptyObj == minimum){
-                p=adr[0][0]; q=adr[0][1];
+                p=adr[0]; q=adr[1];
                 for(short i=1;i<10;i++)
                 if(obj[p][q].get(1,i) == 1){
                     obj[p][q].forceApply(sudoku, i);
