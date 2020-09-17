@@ -1,17 +1,8 @@
 #include "Sudoku.h"
+#include <windows.h>
 
 /*
-Example inputs
-0 0 0 8 0 0 0 2 0
-6 5 8 0 0 0 0 0 7
-0 9 0 0 0 0 0 8 3
-0 0 0 9 0 0 0 0 0
-0 6 2 0 0 0 0 0 4
-0 0 7 0 2 0 8 1 0
-5 0 0 7 0 2 0 0 0
-0 0 4 0 0 0 6 0 8
-0 0 0 0 6 0 0 4 0
-
+Example for manually input
 0 6 0 9 0 1 4 2 0
 0 0 3 0 7 0 0 0 5
 0 0 0 0 0 5 6 0 0
@@ -36,19 +27,22 @@ int main() {
         0,0,0,0,6,0,0,4,0
 	};
 
-	Sudoku s(sudoku);
-
-	s.input();
-
+	Sudoku su_solver(sudoku);
+	
+	//Ask for input
+	su_solver.input();
+	
+	//Print inputted sudoku
 	cout<<"Input"<<endl;
-	s.display();
-
-	s.solve();
-
+	su_solver.display();
+	
+	//Start solving
+	su_solver.solve();
+	
+	//Prnit sudoku afer trying to solve
 	cout<<"\nOutput"<<endl;
-	s.display();
-
-	char ch;
-	cin>>ch;
+	su_solver.display();
+	
+	system("PAUSE");
 	return 0;
 }
