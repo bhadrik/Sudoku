@@ -28,7 +28,7 @@ public:
 			apply(sudoku);
 		}
 		else {
-    	applicableNumber = 0;
+			applicableNumber = 0;
 		}
 	}
 
@@ -66,15 +66,15 @@ public:
 	}
 
 	void printMask(){
-	    cout<<"---";
-        for(int i=1;i<10;i++)
-            cout<<mask[i];
-        cout<<endl;
+		cout<<"---";
+		for(int i=1;i<10;i++)
+			cout<<mask[i];
+		cout<<endl;
 	}
 
 	void forceApply(short sudoku[9][9], short forceApplicableNumber){
-	    applicableNumber = forceApplicableNumber;
-        apply(sudoku);
+		applicableNumber = forceApplicableNumber;
+		apply(sudoku);
 	}
 	
 	void manualProcess(short sudoku[9][9]) {
