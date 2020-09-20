@@ -73,7 +73,7 @@ public:
 
 		if(loop >= MAXLOOP || totalEmpty){
 			cout<<"+--------------------------------------------+\n"
-			    <<"| CAN'T SOLVE!                               |\n"
+			    <<"| COULDN'T SOLVE!                               |\n"
 			    <<"| Your sudoku is harder than hard :)         |\n"
 			    <<"+--------------------------------------------+\n";
 			cout<<"totalEmpty: "<<totalEmpty<<endl;
