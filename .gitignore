@@ -34,3 +34,6 @@
 #Output files
 /Debug
 /Sudoku/Debug
+
+#ignore everything
+*
