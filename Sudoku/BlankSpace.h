@@ -36,7 +36,7 @@ public:
 
 	void forceApply(short suoku[9][9], short);
 
-	//To referesh object. used in deepSearchs.
+	//To referesh object. Used in deepSearch.
 	void manualProcess(short sudoku[9][9]);
 };
 
