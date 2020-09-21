@@ -8,19 +8,18 @@ Sudoku::Sudoku(short su[9][9]) {
 void Sudoku::solve() {
 	short k = 1;
 	//Setup all objects
-	for (short i = 0; i < 9; i++) {
-		for (short j = 0; j < 9; j++) {
-			obj[i][j].set(0, 3, 0);
-			if (sudoku[i][j] == 0) {
-				obj[i][j].set(0, 1, i);	//rowAddress
-				obj[i][j].set(0, 2, j);	//columnAddress
-				obj[i][j].set(0, 3, k);	//objectNumber
-				k++;
-			}
-			else {
-				obj[i][j].changStatus(1);
-				obj[i][j].set(0, 3, 0);     // objectNumber of already filled number is 0.
-			}
+	for (short i = 0; i < 9; i++)
+	for (short j = 0; j < 9; j++) {
+		obj[i][j].set(0, 3, 0);
+		if (sudoku[i][j] == 0) {
+			obj[i][j].set(0, 1, i);	//rowAddress
+			obj[i][j].set(0, 2, j);	//columnAddress
+			obj[i][j].set(0, 3, k);	//objectNumber
+			k++;
+		}
+		else {
+			obj[i][j].changStatus(1);
+			obj[i][j].set(0, 3, 0);     // objectNumber of already filled number is 0.
 		}
 	}
 
@@ -34,14 +33,13 @@ void Sudoku::solve() {
 		short temp = totalEmpty;
 
 		for (short i = 0; i < 9; i++)
-			for (short j = 0; j < 9; j++) {
-				if (!obj[i][j].isFilled()) {
-					processObj(obj[i][j]);
-				}
+		for (short j = 0; j < 9; j++) {
+			if (!obj[i][j].isFilled()) {
+				processObj(obj[i][j]);
 			}
+		}
 
 		totalEmpty = countBlankObjects();
-
 
 		if (temp == totalEmpty) {
 			if (again) {
@@ -68,7 +66,7 @@ void Sudoku::solve() {
 
 	if (loop >= MAXLOOP || totalEmpty) {
 		cout << "+--------------------------------------------+\n"
-			<< "| COULDN'T SOLVE!                               |\n"
+			<< "| COULDN'T SOLVE!                            |\n"
 			<< "| Your sudoku is harder than hard :)         |\n"
 			<< "+--------------------------------------------+\n";
 		cout << "totalEmpty: " << totalEmpty << endl;
@@ -128,9 +126,9 @@ void Sudoku::display() {
 
 void Sudoku::displayObj(short index) {
 	for (short i = 0; i < 9; i++)
-		for (short j = 0; j < 9; j++)
-			if (obj[i][j].get(0, 3) == index)
-				obj[i][j].display();
+	for (short j = 0; j < 9; j++)
+	if (obj[i][j].get(0, 3) == index)
+		obj[i][j].display();
 }
 
 void Sudoku::displayObj(short x, short y) {
@@ -149,9 +147,9 @@ void Sudoku::processObj(BlankSpace& objOne) {
 	short x = a + 3, y = b + 3;
 
 	for (short i = a; i < x; i++)
-		for (short j = b; j < y; j++) {
-			objOne.set(1, sudoku[i][j], 0);
-		}
+	for (short j = b; j < y; j++) {
+		objOne.set(1, sudoku[i][j], 0);
+	}
 
 	//One step ahead search
 	objOne.finalProcess(sudoku);
@@ -161,22 +159,21 @@ void Sudoku::processObj(BlankSpace& objOne) {
 
 void Sudoku::deepSearch(BlankSpace& objOne, short a, short b) {
 	short x = a + 3, y = b + 3;
-	if (loop > 0) {
-		for (int l = 1; l < 10; l++)
-			if (objOne.get(1, l) == 1) {
-				bool possible = true;
-				for (short i = a; i < x; i++) {
-					for (short j = b; j < y; j++) {
-						//    objectNumber != 0      Not same object
-						if (obj[i][j].get(0, 3) != 0 && obj[i][j].get(0, 3) != objOne.get(0, 3) && !obj[i][j].isFilled()) {
-							obj[i][j].manualProcess(sudoku);
-							if (obj[i][j].get(1, l) != 0) { possible = false; break; }
-						}
-					}
-					if (!possible) break;
+	if (loop > 0)
+	for (int l = 1; l < 10; l++)
+	if (objOne.get(1, l) == 1) {
+		bool possible = true;
+		for (short i = a; i < x; i++) {
+			for (short j = b; j < y; j++) {
+				//    objectNumber != 0      Not same object
+				if (obj[i][j].get(0, 3) != 0 && obj[i][j].get(0, 3) != objOne.get(0, 3) && !obj[i][j].isFilled()) {
+					obj[i][j].manualProcess(sudoku);
+					if (obj[i][j].get(1, l) != 0) { possible = false; break; }
 				}
-				if (possible) { objOne.forceApply(sudoku, l); break; }
 			}
+			if (!possible) break;
+		}
+		if (possible) { objOne.forceApply(sudoku, l); break; }
 	}
 }
 
@@ -216,29 +213,27 @@ void Sudoku::athiyo(short& p, short& q, short& value) {
 
 void Sudoku::fix(short m, short n, short value) {
 	obj[m][n].manualProcess(sudoku);
-	for (int i = 1; i < 10; i++) {
-		if (i != value && obj[m][n].get(1, i) == 1) {
-			//cout << "F(" << m+1 << "," << n+1 << ")" << endl;
-			obj[m][n].forceApply(sudoku, i);
-			break;
-		}
+	for (int i = 1; i < 10; i++)
+	if (i != value && obj[m][n].get(1, i) == 1) {
+		obj[m][n].forceApply(sudoku, i);
+		break;
 	}
 }
 
 short Sudoku::countBlankObjects() {
 	short tmp = 0;
 	for (short i = 0; i < 9; i++)
-	for (short j = 0; j < 9; j++) {
+	for (short j = 0; j < 9; j++)
 		if (!obj[i][j].isFilled()) tmp++;
-	}
+	
 	return tmp;
 }
 
 short Sudoku::countEmptyFields() {
 	short tmp = 0;
 	for (short i = 0; i < 9; i++)
-	for (short j = 0; j < 9; j++) {
+	for (short j = 0; j < 9; j++)
 		if (sudoku[i][j] == 0) tmp++;
-	}
+	
 	return tmp;
 }
