@@ -30,26 +30,26 @@ void BlankSpace::finalProcess(short sudoku[9][9]) {
 
 short BlankSpace::get(bool key, short index) {
 	if (!key)
-		switch (index) {
+	switch (index) {
 		case 1: return rowAddress;  			//(0,1)
 		case 2: return columnAddress; 			//(0,2)
 		case 3: return objectNumber;			//(0,3)
 		case 4: return possibleNumbers;			//(0,4)
 		case 5: return applicableNumber;		//(0,5)
-		}
+	}
 	else return ((short)mask[index]);			//(1,1-9)
 	return 0;
 }
 
 void BlankSpace::set(bool key, short index, short data) {
 	if (!key)
-		switch (index) {
+	switch (index) {
 		case 1: rowAddress = data; break;             //(0,1,D)
 		case 2: columnAddress = data; break;          //(0,2,D)
 		case 3: objectNumber = data; break;           //(0,3,D)
 		case 4: possibleNumbers = data; break;        //(0,4,D)
 		case 5: applicableNumber = data; break;       //(0,5,D)
-		}
+	}
 	else mask[index] = data;                    //(1,1-9,D)
 }
 
