@@ -4,8 +4,9 @@
 #define MAXLOOP 20
 
 using namespace std;
-class Sudoku {
 
+class Sudoku {
+	
 private:
 	short sudoku[9][9];
 	short suBackup[9][9];
